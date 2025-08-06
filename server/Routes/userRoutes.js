@@ -9,7 +9,7 @@ userRoutes.get("/",getRecommendedUsers)
 userRoutes.get("/friends",getMyFriends)
 userRoutes.post("/friend-request/:id", sendFriendRequest)
 userRoutes.put("/friend-request/:id/accept",acceptFriendRequest)
-userRoutes.get("friend-requests",getFriendRequests)
+userRoutes.get("/friend-requests",getFriendRequests)
 
 userRoutes.get("/outgoing-friend-requests",getOutgoingFriendRequest)
 

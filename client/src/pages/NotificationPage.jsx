@@ -6,10 +6,11 @@ import NoNotificationsFound from "../components/NoNotificationsFound.jsx";
 const NotificationsPage = () => {
   const queryClient = useQueryClient();
 
-  const { data: friendRequests, isLoading } = useQuery({
-    queryKey: ["friendRequests"],
-    queryFn: getFriendRequests,
-  });
+  
+  const { data: friendRequests, isLoading} = useQuery({
+  queryKey: ["friendRequests"],
+  queryFn: getFriendRequests,
+});
 
   const { mutate: acceptRequestMutation, isPending } = useMutation({
     mutationFn: acceptFriendRequest,

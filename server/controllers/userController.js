@@ -117,7 +117,7 @@ export async function acceptFriendRequest(req, res) {
 export const getFriendRequests=async(req,res)=>{
     try {
      
-        const incomingReqs=await FriendRequest.fing({
+        const incomingReqs=await FriendRequest.find({
             recipient:req.user.id,
             status:"pending",
 

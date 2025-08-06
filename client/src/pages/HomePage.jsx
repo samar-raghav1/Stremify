@@ -43,6 +43,7 @@ const HomePage = () => {
     if (outgoingFriendReqs && outgoingFriendReqs.length > 0) {
       outgoingFriendReqs.forEach((req) => {
         outgoingIds.add(req.recipient._id);
+        console.log("user send")
       });
       setOutgoingRequestsIds(outgoingIds);
     }
@@ -139,28 +140,28 @@ const HomePage = () => {
 
                       {/* Action button */}
                       <button
-                        className={`btn w-full mt-2 ${
-                          hasRequestBeenSent ? "btn-disabled" : "btn-primary"
-                        } `}
-                        onClick={() => sendRequestMutation(user._id)}
-                        disabled={hasRequestBeenSent || isPending}
-                      >
-                        {hasRequestBeenSent ? (
-                          <>
-                            <CheckCircleIcon className="size-4 mr-2" />
-                            Request Sent
-                          </>
-                        ) : (
-                          <>
-                            <UserPlusIcon className="size-4 mr-2" />
-                            Send Friend Request
-                          </>
-                        )}
-                      </button>
+  className={`btn w-full mt-2 ${
+    hasRequestBeenSent ? "btn-disabled" : "btn-primary"
+  }`}
+  onClick={() => sendRequestMutation(user._id)}
+  disabled={hasRequestBeenSent || isPending}
+>
+  {hasRequestBeenSent ? (
+    <>
+      <CheckCircleIcon className="size-4 mr-2" />
+      Request Sent
+    </>
+  ) : (
+    <>
+      <UserPlusIcon className="size-4 mr-2" />
+      Send Friend Request
+    </>
+  )}
+</button>
                     </div>
                   </div>
                 );
-              })}
+})}
             </div>
           )}
         </section>

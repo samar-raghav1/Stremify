@@ -17,6 +17,7 @@ import { useThemeStore } from "./store/useThemeStore.js";
 import FriendCard from "./components/FriendCard.jsx";
 import NoFriendsFound from "./components/NoFriendsFound.jsx";
 import LocomotiveScroll from 'locomotive-scroll'
+import MyFriends from "./pages/MyFriend.jsx";
 
 const App = () => {
   new LocomotiveScroll();
@@ -106,6 +107,12 @@ const App = () => {
             )
           }
         />
+        <Route
+          path="/friends"
+          element={
+           <Layout showSidebar={true}>
+                <MyFriends/>
+              </Layout>} />
       </Routes>
 
       <Toaster />

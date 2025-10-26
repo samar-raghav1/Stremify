@@ -7,6 +7,8 @@ import userRoutes from "./Routes/userRoutes.js";
 import chatRouter from "./Routes/chatRoutes.js";
 import cors from "cors";
 import path from "path";
+import friendRoute from "./Routes/friendRoutes.js";
+
 dotenv.config();
 const app=express();
 const port =process.env.PORT;
@@ -14,8 +16,10 @@ const __dirname = path.resolve();
 connectDB();
 
 app.use(cors({
-  origin: 'http://localhost:5173',
-  credentials: true
+  origin: process.env.CLIENT_URL,
+  credentials: true,
+  methods:['GET','POST','DELETE','PUT','OPTIONS'],
+  allowedHeaders:['Content-Type','Authorization']
 }));
 
 app.use(cookieParser())
@@ -27,7 +31,7 @@ app.get("/",(req,res)=>{
 app.use("/api/auth",router)
 app.use("/api/users",userRoutes)
 app.use("/api/chat",chatRouter)
-
+app.use("/api/friend",friendRoute)
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../client/dist")));

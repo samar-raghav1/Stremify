@@ -1,18 +1,28 @@
 import { Link } from "react-router";
 import { LANGUAGE_TO_FLAG } from "../constants";
+import { IoRemoveCircleOutline } from "react-icons/io5";
 
-const FriendCard = ({ friend }) => {
+
+const FriendCard = ({ friend ,onDelete}) => {
+
   return (
     <div className="card bg-base-200 hover:shadow-md transition-shadow">
       <div className="card-body p-4">
         {/* USER INFO */}
-        <div className="flex items-center gap-3 mb-3">
-          <div className="avatar size-12">
-            <img src={friend.profilePic} alt={friend.fullName} />
-          </div>
-          <h3 className="font-semibold truncate">{friend.fullName}</h3>
-        </div>
-
+        <div className="flex items-center justify-between w-full px-4 py-2">
+                    <div className="flex items-center justify-between gap-3">
+                        <div className=" p-1 rounded ">
+                            <img className="h-14 w-14" src={friend.profilePic} alt={friend.fullName} />
+                        </div>
+                        <p className="text-lg avatar text-gray-800">{friend.fullName}</p>
+                    </div>
+                    <button type="button" aria-label="more">
+                        <IoRemoveCircleOutline className="flex justify-end"
+                         onClick={() => onDelete(friend.senderId, friend.recipientId)}
+                        />
+                    </button>
+                </div>
+      
         <div className="flex flex-wrap gap-1.5 mb-3">
           <span className="badge badge-secondary text-xs">
             {getLanguageFlag(friend.nativeLanguage)}
@@ -33,6 +43,7 @@ const FriendCard = ({ friend }) => {
 };
 export default FriendCard;
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function getLanguageFlag(language) {
   if (!language) return null;
 

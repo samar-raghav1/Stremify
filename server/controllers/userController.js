@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import FriendRequest from "../models/FriendRequest.js";
 import User from "../models/User.js";
 
@@ -150,3 +151,7 @@ export const getOutgoingFriendRequest=async(req,res)=>{
         
     }
 }
+
+
+
+

@@ -1,6 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
+
 import {
+  deleteFriends,
   getOutgoingFriendReqs,
   getRecommendedUsers,
   getUserFriends,
@@ -14,7 +16,8 @@ import { capitialize } from "../lib/utils.js";
 import FriendCard, { getLanguageFlag } from "../components/FriendCard.jsx";
 import NoFriendsFound from "../components/NoFriendsFound.jsx";
 
-const HomePage = () => {
+const HomePage = (userId) => {
+  
   const queryClient = useQueryClient();
   const [outgoingRequestsIds, setOutgoingRequestsIds] = useState(new Set());
 
@@ -48,6 +51,35 @@ const HomePage = () => {
       setOutgoingRequestsIds(outgoingIds);
     }
   }, [outgoingFriendReqs]);
+  
+   const [Friends, setFriends] = useState([]);
+   const [loading, setLoading] = useState(true);
+       
+        // Fetch list on mount
+        useEffect(() => {
+          getUserFriends(userId)
+            .then(setFriends)
+            .catch(err => console.error(err))
+            .finally(() => setLoading(false));
+        }, [userId]);
+      
+        const handleDelete = async (senderId, recipientId) => {
+          try {
+            await deleteFriends();
+            setFriends(prev =>
+              prev.filter(
+                f =>
+                  !(
+                    (f.senderId === senderId && f.recipientId === recipientId) ||
+                    (f.senderId === recipientId && f.recipientId === senderId)
+                  )
+              )
+            );
+            
+          } catch (err) {
+            alert(err.message);
+          }
+        };
 
   return (
     <div className="p-4 sm:p-6 lg:p-8">
@@ -69,8 +101,10 @@ const HomePage = () => {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {friends.map((friend) => (
-              <FriendCard key={friend._id} friend={friend} />
+              <FriendCard key={friend._id} friend={friend} onDelete={handleDelete}  />
+              
             ))}
+            
           </div>
         )}
 
@@ -139,35 +173,35 @@ const HomePage = () => {
                       {user.bio && <p className="text-sm opacity-70">{user.bio}</p>}
 
                       {/* Action button */}
-                      <button
-  className={`btn w-full mt-2 ${
-    hasRequestBeenSent ? "btn-disabled" : "btn-primary"
-  }`}
-  onClick={() => sendRequestMutation(user._id)}
-  disabled={hasRequestBeenSent || isPending}
->
-  {hasRequestBeenSent ? (
-    <>
-      <CheckCircleIcon className="size-4 mr-2" />
-      Request Sent
-    </>
-  ) : (
-    <>
-      <UserPlusIcon className="size-4 mr-2" />
-      Send Friend Request
-    </>
-  )}
-</button>
-                    </div>
-                  </div>
-                );
-})}
-            </div>
-          )}
-        </section>
-      </div>
-    </div>
-  );
-};
-
+                   <button
+                          className={`btn w-full mt-2 ${
+                            hasRequestBeenSent ? "btn-disabled" : "btn-primary"
+                          }`}
+                          onClick={() => sendRequestMutation(user._id)}
+                          disabled={hasRequestBeenSent || isPending}
+                        >
+                          {hasRequestBeenSent ? (
+                            <>
+                              <CheckCircleIcon className="size-4 mr-2" />
+                              Request Sent
+                            </>
+                          ) : (
+                            <>
+                              <UserPlusIcon className="size-4 mr-2" />
+                              Send Friend Request
+                            </>
+                          )}
+                        </button>
+                     </div>
+                   </div>
+                                        );
+                        })}
+                                    </div>
+                                  )}
+                                </section>
+                              </div>
+                            </div>
+                          );
+ };
+                        
 export default HomePage;

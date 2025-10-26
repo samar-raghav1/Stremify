@@ -16,8 +16,10 @@ import Layout from "./components/Layout.jsx";
 import { useThemeStore } from "./store/useThemeStore.js";
 import FriendCard from "./components/FriendCard.jsx";
 import NoFriendsFound from "./components/NoFriendsFound.jsx";
+import LocomotiveScroll from 'locomotive-scroll'
 
 const App = () => {
+  new LocomotiveScroll();
   const { isLoading, authUser } = useAuthUser();
   const { theme } = useThemeStore();
 

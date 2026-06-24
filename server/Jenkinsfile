@@ -1,0 +1,55 @@
+pipeline {
+  agent any
+
+  stages {
+
+    stage('checkout') {
+      steps {
+        git url: "https://github.com/samar-raghav1/Stremify.git", branch: "main"
+      }
+    }
+
+    stage('build') {
+      steps {
+        echo 'building docker for Server'
+        sh 'docker build -t stremify-server ./server'
+        echo 'docker image build'
+      }
+    }
+
+    stage('push to docker hub') {
+      steps {
+        echo 'pushing image to docker hub'
+
+        withCredentials([usernamePassword(
+          credentialsId: 'dockerhub-creds',
+          usernameVariable: 'DOCKER_USER',
+          passwordVariable: 'DOCKER_PASS'
+        )]) {
+          echo '$DOCKER_USER'
+
+          sh """
+              echo "${DOCKER_PASS}" | docker login -u "${DOCKER_USER}" --password-stdin
+            """
+
+          sh 'docker tag stremify-server:latest ${DOCKER_USER}/stremify-server:latest'
+
+          sh 'docker push ${DOCKER_USER}/stremify-server:latest'
+
+          echo 'Image Pushed'
+        }
+      }
+    }
+
+    stage('deploy') {
+      steps {
+        echo 'deploying image'
+    
+        sh 'ls -la'
+        sh 'cd server'
+        sh 'docker compose -f server/docker-compose.yml down && docker compose -f server/docker-compose.yml up -d --build'
+      }
+    }
+
+  }
+}

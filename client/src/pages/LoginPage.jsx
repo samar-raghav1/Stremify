@@ -54,6 +54,7 @@ const LoginPage = () => {
                     <input
                       type="email"
                       placeholder="hello@example.com"
+                      name="Email"
                       className="input input-bordered w-full"
                       value={loginData.email}
                       onChange={(e) => setLoginData({ ...loginData, email: e.target.value })}
@@ -69,13 +70,14 @@ const LoginPage = () => {
                       type="password"
                       placeholder="••••••••"
                       className="input input-bordered w-full"
+                      name="Password"
                       value={loginData.password}
                       onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
                       required
                     />
                   </div>
 
-                  <button type="submit" className="btn btn-primary w-full" disabled={isPending}>
+                  <button id="SignInBtn" type="submit" className="btn btn-primary w-full" disabled={isPending}>
                     {isPending ? (
                       <>
                         <span className="loading loading-spinner loading-xs"></span>
@@ -89,7 +91,7 @@ const LoginPage = () => {
                   <div className="text-center mt-4">
                     <p className="text-sm">
                       Don't have an account?{" "}
-                      <Link to="/signup" className="text-primary hover:underline">
+                      <Link to="/signup" id="Signup" className=" text-primary hover:underline">
                         Create one
                       </Link>
                     </p>

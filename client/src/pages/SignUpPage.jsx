@@ -72,6 +72,7 @@ const SignUpPage = () => {
                     </label>
                     <input
                       type="text"
+                      name="Name"
                       placeholder="John Doe"
                       className="input input-bordered w-full"
                       value={signupData.fullName}
@@ -86,6 +87,7 @@ const SignUpPage = () => {
                     </label>
                     <input
                       type="email"
+                      name="Email"
                       placeholder="john@gmail.com"
                       className="input input-bordered w-full"
                       value={signupData.email}
@@ -100,6 +102,7 @@ const SignUpPage = () => {
                     </label>
                     <input
                       type="password"
+                      name="Password"
                       placeholder="********"
                       className="input input-bordered w-full"
                       value={signupData.password}

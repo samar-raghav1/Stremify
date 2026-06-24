@@ -1,0 +1,35 @@
+version: '3.9'
+
+services:
+  server:
+    container_name: stremify-server
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    environment:
+      - ./server/.env
+    depends_on:
+      - mongo
+    volumes:
+      - .:/app
+      - /app/node_modules
+    networks:
+      - stremify-network
+
+  mongo:
+    container_name: stremify-mongo
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - stremify-network
+
+volumes:
+  mongo-data:
+networks:
+  stremify-network:
+    driver: bridge
